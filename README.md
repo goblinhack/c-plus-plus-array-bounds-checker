@@ -55,7 +55,7 @@ int main (void) {
     //
     // One dimensional array
     //
-    std::array<int, xdim> a;
+    std::array< int, xdim > a;
     for (auto i = 0; i < xdim; i++) {
         set(a, i, i);
         ASSERT(get(a, i) == i);
@@ -64,7 +64,7 @@ int main (void) {
     //
     // Two dimensional array
     //
-    std::array<std::array<int, ydim>, xdim> b;
+    std::array< std::array< int, ydim >, xdim > b;
     for (auto x = 0; x < xdim; x++) {
         for (auto y = 0; y < ydim; y++) {
             set(b, x, y, x+y);
@@ -75,7 +75,7 @@ int main (void) {
     //
     // Three dimensional array
     //
-    std::array<std::array<std::array<int, zdim>, ydim>, xdim> c;
+    std::array< std::array< std::array< int, zdim >, ydim >, xdim > c;
     for (auto x = 0; x < xdim; x++) {
         for (auto y = 0; y < ydim; y++) {
             for (auto z = 0; z < zdim; z++) {
