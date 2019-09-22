@@ -128,7 +128,7 @@ int main (void) {
     //
     // Three dimensional vector
     //
-    std::vector<std::vector<std::vector<int>>> c;
+    std::vector<std::vector<std::vector<int> > > c;
     c.resize(xdim);
     for (auto x = 0; x < b.size(); x++) {
         c[x].resize(ydim);
