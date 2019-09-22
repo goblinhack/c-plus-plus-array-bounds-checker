@@ -29,8 +29,8 @@ To call abort() on assertion:
 Which should drop you into your debugger. If you do not enable this, then
 the code will continue and likely crash anyway.
 
-Header
-======
+To enable in your code
+======================
 
 <pre>
 #define DEBUG
