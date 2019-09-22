@@ -3,26 +3,33 @@ Simple C++ 11 array bounds checking
 
 Sometimes I want to be able to add array bounds checking in my code and often
 things like valgrind are too heavy for the task. This little hack adds set()
-and get() accessors for std::array and, depending on flags, will either abort
-upon hitting an out of bounds condition, or ignore it. The flags are
+and get() accessors for std::array. e.g.:
 
-To include a trace of set() and get() calls:
+<pre>
+    std::array<std::array<std::array<int, zdim>, ydim>, xdim> c;
+    set(c, 0, 0, 0, 42);
+    (void) get(c, 0, 0, 0);
+</pre>
+
+If you want to include a trace of set() and get() calls, enable:
 <pre>
 #define DEBUG
 </pre>
 
-To print an assertion on out of bounds:
+To print an assertion on out of bounds (and continue):
 <pre>
 #define ENABLE_ASSERT
 </pre>
 
-To call abort() an assertion on out of bounds:
+To call abort() an assertion:
 <pre>
 #undef ENABLE_ABORT
 </pre>
 
-With abort you should be able to catch this in your debugger. To enable, add
-this in your code:
+Which should drop you into your debugger.
+
+Example
+=======
 
 <pre>
 #define DEBUG
@@ -89,6 +96,7 @@ Assert 'X < arr.size()' failed at line 85, file ./array_bounds_check.h, function
 </pre>
 
 And in a debugger:
+==================
 
 <pre>
 lldb array_bounds_check
