@@ -36,7 +36,7 @@ Header
 #define DEBUG
 #define ENABLE_ASSERT
 #define ENABLE_ABORT
-#include "c_plus_plus_serializer.h" 
+#include "array_bounds_check.h"
 </pre>
 
 std::array example
