@@ -14,10 +14,10 @@ CC=clang # AUTOGEN
 EXE= # AUTOGEN
 LDLIBS= # AUTOGEN
 CFLAGS=$(COMPILER_FLAGS) $(COMPILER_WARNINGS) # AUTOGEN
-NAME=array_bounds_check
+NAME=bounds_check
 OBJDIR=.o
 
-TARGET_OBJECTS=$(OBJDIR)/array_bounds_check.o
+TARGET_OBJECTS=$(OBJDIR)/main.o $(OBJDIR)/array_bounds_check.o $(OBJDIR)/vector_bounds_check.o
 
 EXTRA_CFLAGS=-std=c++11
 
@@ -47,7 +47,11 @@ clobber: clean
 all: $(TARGET) 
 # DO NOT DELETE
 
-.o/array_bounds_check.o: array_bounds_check.h /usr/include/assert.h
-.o/array_bounds_check.o: /usr/include/sys/cdefs.h
+.o/array_bounds_check.o: array_bounds_check.h bounds_check.h
+.o/array_bounds_check.o: /usr/include/assert.h /usr/include/sys/cdefs.h
 .o/array_bounds_check.o: /usr/include/sys/_symbol_aliasing.h
 .o/array_bounds_check.o: /usr/include/sys/_posix_availability.h
+.o/vector_bounds_check.o: vector_bounds_check.h bounds_check.h
+.o/vector_bounds_check.o: /usr/include/assert.h /usr/include/sys/cdefs.h
+.o/vector_bounds_check.o: /usr/include/sys/_symbol_aliasing.h
+.o/vector_bounds_check.o: /usr/include/sys/_posix_availability.h

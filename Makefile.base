@@ -1,7 +1,7 @@
-NAME=array_bounds_check
+NAME=bounds_check
 OBJDIR=.o
 
-TARGET_OBJECTS=$(OBJDIR)/array_bounds_check.o
+TARGET_OBJECTS=$(OBJDIR)/main.o $(OBJDIR)/array_bounds_check.o $(OBJDIR)/vector_bounds_check.o
 
 EXTRA_CFLAGS=-std=c++11
 

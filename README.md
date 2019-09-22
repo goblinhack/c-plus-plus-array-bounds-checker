@@ -1,5 +1,5 @@
-Simple C++ 11 array bounds checking
-===================================
+Simple C++ 11 std::array and std::vector bounds checking
+========================================================
 
 Sometimes I want to be able to add array bounds checking in my code and often
 things like valgrind are too heavy for the task. This little hack adds set()
@@ -21,15 +21,16 @@ To print an assertion on out of bounds (and continue):
 #define ENABLE_ASSERT
 </pre>
 
-To call abort() an assertion:
+To call abort() on assertion:
 <pre>
 #undef ENABLE_ABORT
 </pre>
 
-Which should drop you into your debugger.
+Which should drop you into your debugger. If you do not enable this, then
+the code will continue and likely crash anyway.
 
-Example
-=======
+Header
+======
 
 <pre>
 #define DEBUG
@@ -38,7 +39,8 @@ Example
 #include "c_plus_plus_serializer.h" 
 </pre>
 
-Sample code:
+std::array example
+==================
 
 <pre>
 #define ENABLE_ASSERT
@@ -89,7 +91,76 @@ int main (void) {
 }
 </pre>
 
-Sample error:
+std::vector example
+===================
+
+<pre>
+#define ENABLE_ASSERT
+#define ENABLE_ABORT
+#include "vector_bounds_check.h"
+
+int main (void) {
+    const auto xdim = 3;
+    const auto ydim = 2;
+    const auto zdim = 1;
+
+    std::cout << "One dimensional vector test, should pass" << std::endl;
+    std::cout << "========================================" << std::endl;
+    std::vector<int> a;
+    a.resize(xdim);
+    for (auto i = 0; i < xdim; i++) {
+	set(a, i, i);
+        ASSERT(get(a, i) == i);
+    }
+
+    std::cout << "Two dimensional vector test, should pass" << std::endl;
+    std::cout << "========================================" << std::endl;
+    std::vector<std::vector<int>> b;
+    b.resize(xdim);
+    for (auto x = 0; x < b.size(); x++) {
+        b[x].resize(ydim);
+    }
+    for (auto x = 0; x < xdim; x++) {
+	for (auto y = 0; y < ydim; y++) {
+	    set(b, x, y, x+y);
+	    ASSERT(get(b, x, y) == x+y);
+	}
+    }
+
+    std::cout << "Three dimensional vector test, should pass" << std::endl;
+    std::cout << "==========================================" << std::endl;
+    std::vector<std::vector<std::vector<int>>> c;
+    c.resize(xdim);
+    for (auto x = 0; x < b.size(); x++) {
+        c[x].resize(ydim);
+        for (auto y = 0; y < b[x].size(); y++) {
+            c[x][y].resize(zdim);
+        }
+    }
+    for (auto x = 0; x < xdim; x++) {
+	for (auto y = 0; y < ydim; y++) {
+	    for (auto z = 0; z < zdim; z++) {
+		set(c, x, y, z, x+y);
+		ASSERT(get(c, x, y, z) == x+y+z);
+	    }
+	}
+    }
+
+    std::cout << "Valid sets, vector should pass" << std::endl;
+    std::cout << "==============================" << std::endl;
+    set(c, xdim-1, ydim-1, zdim-1, 42);
+    set(c, 0, 0, 0, 42);
+
+    std::cout << "Invalid gets, vector should fail" << std::endl;
+    std::cout << "================================" << std::endl;
+    get(c, xdim, ydim-1, zdim-1);
+    get(c, xdim-1, ydim, zdim-1);
+    get(c, xdim-1, ydim-1, zdim);
+}
+</pre>
+
+Sample error
+============
 
 <pre>
 Assert 'X < arr.size()' failed at line 85, file ./array_bounds_check.h, function set()
@@ -121,4 +192,27 @@ Target 0: (array_bounds_check) stopped.
     frame #5: 0x00000001000020f4 array_bounds_check`void set<int, 3ul, 2ul, 1ul>(arr=0x00007ffeefbfeac8, X=3, Y=1, Z=0, v=42) at array_bounds_check.h:85
     frame #6: 0x0000000100000f50 array_bounds_check`main at array_bounds_check.cpp:43
     frame #7: 0x00007fff5d2d2015 libdyld.dylib`start + 1
+</pre>
+
+Building
+========
+
+Do
+
+<pre>
+    sh ./RUNME
+</pre>
+
+Or, if that fails, manual build:
+
+<pre>
+    c++ -std=c++11 -Werror -g -ggdb3 -O2 -Wall -Wall -c -o .o/main.o main.cpp
+    c++ -std=c++11 -Werror -g -ggdb3 -O2 -Wall -Wall -c -o .o/array_bounds_check.o array_bounds_check.cpp
+    c++ -std=c++11 -Werror -g -ggdb3 -O2 -Wall -Wall -c -o .o/vector_bounds_check.o vector_bounds_check.cpp
+</pre>
+
+To test:
+
+<pre>
+    ./bounds_check
 </pre>
