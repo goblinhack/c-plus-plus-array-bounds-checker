@@ -1,12 +1,16 @@
 Simple C++ 11 std::array and std::vector bounds checking
 ========================================================
 
-Sometimes I want to be able to add array bounds checking in my code and often
-things like valgrind are too heavy for the task. This little hack adds set()
-and get() accessors for std::array. e.g.:
+Do you want to enable bounds checking of std::array and std::vector without
+the overhead of valgrind?
+
+Do you want to be able to turn checks on and then off for max perf?
+Of course you do!
+
+This little hack adds set() and get() accessors e.g.:
 
 <pre>
-    std::array<std::array<std::array<int, zdim>, ydim>, xdim> c;
+    std::array< std::array< std::array< int, zdim >, ydim >, xdim > c;
     set(c, 0, 0, 0, 42);
     (void) get(c, 0, 0, 0);
 </pre>
