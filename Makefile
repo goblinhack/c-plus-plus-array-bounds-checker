@@ -14,37 +14,24 @@ CC=clang # AUTOGEN
 EXE= # AUTOGEN
 LDLIBS= # AUTOGEN
 CFLAGS=$(COMPILER_FLAGS) $(COMPILER_WARNINGS) # AUTOGEN
-NAME=bounds_check
-OBJDIR=.o
+TARGETS=array_bounds_check vector_bounds_check
 
-TARGET_OBJECTS=$(OBJDIR)/main.o $(OBJDIR)/array_bounds_check.o $(OBJDIR)/vector_bounds_check.o
+CXXFLAGS=-std=c++11
 
-EXTRA_CFLAGS=-std=c++11
+.SUFFIXES: .cpp
 
-$(OBJDIR)/%.o: %.cpp
-	@echo $(CXX) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
-	@$(CXX) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
+%.o: %.cpp
+	- @echo $(CXX) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
+	- @$(CXX) $(EXTRA_CFLAGS) $(CFLAGS) -c -o $@ $<
 
-#
-# link
-#
-TARGET=$(NAME)$(EXE)
-$(TARGET): $(TARGET_OBJECTS)
-	$(CXX) $(TARGET_OBJECTS) $(LDLIBS) -o $(TARGET)
+all: $(TARGETS)
 
-#
-# To force clean and avoid "up to date" warning.
-#
-.PHONY: clean
-.PHONY: clobber
+clobber:
+	rm -f *.o
+	rm -f $(TARGETS)
 
 clean:
-	rm -rf $(TARGET) $(OBJDIR)/*.o
-
-clobber: clean
-	mkdir -p $(OBJDIR)
-
-all: $(TARGET) 
+	rm -f *.o
 # DO NOT DELETE
 
 .o/array_bounds_check.o: array_bounds_check.h bounds_check.h
