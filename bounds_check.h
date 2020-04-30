@@ -34,6 +34,6 @@
         ASSERT(left operator right); \
     }
 #else
-#define ASSERT_EX(left operator right) \
+#define ASSERT_EX(left, operator, right) \
     ASSERT(left operator right);
 #endif
