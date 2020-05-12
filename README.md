@@ -36,17 +36,17 @@ the code will continue and likely crash anyway.
 To enable in your code
 ======================
 
-<pre>
+```C++
 #define DEBUG
 #define ENABLE_ASSERT
 #define ENABLE_ABORT
 #include "array_bounds_check.h"
-</pre>
+```
 
 std::array example
 ==================
 
-<pre>
+```C++
 #define ENABLE_ASSERT
 #define ENABLE_ABORT
 #include "array_bounds_check.h"
@@ -89,12 +89,12 @@ int main (void) {
         }
     }
 }
-</pre>
+```
 
 std::vector example
 ===================
 
-<pre>
+```C++
 #define ENABLE_ASSERT
 #define ENABLE_ABORT
 #include "vector_bounds_check.h"
@@ -149,7 +149,7 @@ int main (void) {
 	}
     }
 }
-</pre>
+```
 
 Sample error
 ============
